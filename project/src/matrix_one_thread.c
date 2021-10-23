@@ -1,3 +1,5 @@
+// Copyright 2021 Diakonov Andrey
+
 #include "../include/matrix_one_thread.h"
 #include <stdlib.h>
 
@@ -72,7 +74,8 @@ Matrix* create_matrix(size_t rows, size_t cols) {
 }
 
 
-Matrix* fill_matrix(Matrix* matrix, const int source_array[], const int source_array_size) {
+Matrix* fill_matrix(Matrix* matrix, const int source_array[],
+                                    const int source_array_size) {
     for (size_t i = 0; i < matrix->row; ++i) {
         for (size_t j = 0; j < matrix->col; ++j) {
             matrix->matr[i][j] = source_array[i * matrix->col + j];
@@ -116,7 +119,7 @@ Matrix* transp(const Matrix* matrix) {
     }
 
     for (size_t i = 0; i < matrix->row; ++i) {
-        for(size_t j = 0; j < matrix->col; ++j) {
+        for (size_t j = 0; j < matrix->col; ++j) {
             new_matrix->matr[j][i] = matrix->matr[i][j];
         }
     }
