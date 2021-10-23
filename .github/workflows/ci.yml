@@ -20,7 +20,7 @@ jobs:
         run : |
           sudo apt-get install -y cppcheck
           cppcheck --enable=all --enable=warning,style,performance,portability --suppress=missingIncludeSystem . # --check-config
-          sudo apt-get install python-pip
+          sudo apt-get install python3-pip
           sudo pip install cpplint
           cpplint --extensions=c,h,cpp project/include/* project/src/*
 
