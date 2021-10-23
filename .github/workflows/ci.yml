@@ -19,10 +19,10 @@ jobs:
       - name : Check style code
         run : |
           sudo apt-get install -y cppcheck
-          cppcheck --enable=all --enable=warning,style,performance,portability project/src/ --suppress=missingIncludeSystem # --check-config
+          cppcheck --enable=all --enable=warning,style,performance,portability --suppress=missingIncludeSystem .project/
           sudo apt-get install python-pip
           sudo pip install cpplint
-          python2.7 cpplint --extensions=c,h,cpp project/include/* project/src/*
+          cpplint --extensions=c,h,cpp project/include/* project/src/*
 
       - name : Building
         run : |
@@ -33,16 +33,16 @@ jobs:
           make
           cd ..
 
-      - name: Coverage test
-        run: |
-          sudo apt-get install lcov
-          ./build/test.out
-          mkdir coverage && cd coverage
-          gcov ../build/CMakeFiles/lib_matrix_one_th.dir/project/src/matrix_one_thread.c.o
-          cp -r ../build/CMakeFiles/equa.dir/ .
-          cd ..
-          lcov --capture --directory coverage/ --output-file matrix_one_thread.info
-          genhtml matrix_one_thread.info --output-directory coverage-report/
+#      - name: Coverage test
+#        run: |
+#          sudo apt-get install lcov
+#          ./build/test_matrix_one_thread.out
+#          mkdir coverage && cd coverage
+#          gcov ../build/CMakeFiles/lib_matrix_one_thread.dir/project/src/matrix_one_thread.c.o
+#          cp -r ../build/CMakeFiles/lib_matrix_one_thread.dir/ .
+#          cd ..
+#          lcov --capture --directory coverage/ --output-file matrix_one_thread.info
+#          genhtml matrix_one_thread.info --output-directory coverage-report/
 
       - name: Archive coverage test results
         uses: actions/upload-artifact@v2
@@ -54,7 +54,7 @@ jobs:
         run: |
           sudo apt-get install -y valgrind
           mkdir valgrid-output
-          valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q ./build/test.out
+          valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q ./build/test_matrix_one_thread.out
 
       - name: Archive valgrind test results
         uses: actions/upload-artifact@v2

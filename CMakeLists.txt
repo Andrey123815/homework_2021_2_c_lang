@@ -9,16 +9,16 @@ set(INCLUDE_DIRECTORY project/include)
 #set(CMAKE_EXE_LINKER_FLAGS "-fprofile-arcs -ftest-coverage")
 
 # Create static library matrix_one_thread
-add_library(lib_matrix_one_th STATIC ${SOURCE_DIRECTORY}/matrix_one_thread.c)
-target_include_directories(lib_matrix_one_th PUBLIC ${INCLUDE_DIRECTORY}/matrix_one_thread.h)
-add_executable(main_one_thread.out main_one_thread.c)
-target_link_libraries(main_one_thread.out lib_matrix_one_th)
+add_library(lib_matrix_one_thread STATIC ${SOURCE_DIRECTORY}/matrix_one_thread.c)
+target_include_directories(lib_matrix_one_thread PUBLIC ${INCLUDE_DIRECTORY}/matrix_one_thread.h)
+add_executable(main_matrix_one_thread.out project/main_matrix_one_thread.c)
+target_link_libraries(main_matrix_one_thread.out lib_matrix_one_thread)
 
 # Create static library matrix_multi_thread
-add_library(lib_matrix_multi_th STATIC ${SOURCE_DIRECTORY}/matrix_multi_thread.c)
-target_include_directories(lib_matrix_multi_th PUBLIC ${INCLUDE_DIRECTORY}/matrix_multi_thread.h)
-add_executable(main_multi_thread.out main_multi_thread.c)
-target_link_libraries(main_multi_thread.out lib_matrix_multi_th)
+add_library(lib_matrix_multi_thread STATIC ${SOURCE_DIRECTORY}/matrix_multi_thread.c)
+target_include_directories(lib_matrix_multi_thread PUBLIC ${INCLUDE_DIRECTORY}/matrix_multi_thread.h)
+add_executable(main_matrix_multi_thread.out project/main_matrix_multi_thread.c)
+target_link_libraries(main_matrix_multi_thread.out lib_matrix_multi_thread)
 
 enable_testing()
 
@@ -26,10 +26,10 @@ enable_testing()
 find_package(GTest REQUIRED)
 find_package(Threads REQUIRED)
 
-# Create exe-file for testing one_thread mode
-add_executable(test_one_thread.out gtest_one_thread.cpp)
-target_link_libraries(test_one_thread.out lib_matrix_one_th ${GTEST_LIBRARIES} Threads::Threads)
+# Create exe-file for testing one-thread mode
+add_executable(test_matrix_one_thread.out project/tests/gtest_matrix_one_thread.cpp)
+target_link_libraries(test_matrix_one_thread.out lib_matrix_one_thread ${GTEST_LIBRARIES} Threads::Threads)
 
-#[[# Create exe-file for testing multi_thread mode
-add_executable(test_multi_th.out gtest.cpp)
-target_link_libraries(test.out equa ${GTEST_LIBRARIES} Threads::Threads)]]
+# Create exe-file for testing multi-thread mode
+#[[add_executable(test_matrix_multi_thread.out gtest_matrix_multi_thread.cpp)
+target_link_libraries(test_matrix_multi_thread.out lib_matrix_multi_thread ${GTEST_LIBRARIES} Threads::Threads)]]

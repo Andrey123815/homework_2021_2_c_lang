@@ -1,4 +1,4 @@
-#include "project/include/matrix_one_thread.h"
+#include "include/matrix_one_thread.h"
 
 int main() {
     Matrix* m = create_matrix(2,2);
@@ -10,6 +10,6 @@ int main() {
     fill_matrix(m, source_array, source_array_size);
     print_matrix(m);
     print_matrix(transp(m));
-
+    Matrix* m_new = create_matrix_from_file("file.tst");
     return 0;
 }

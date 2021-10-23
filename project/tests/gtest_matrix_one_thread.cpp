@@ -3,7 +3,7 @@
 #include <fstream>
 
 extern "C" {
-    #include "project/include/matrix_one_thread.h"
+    #include "../include/matrix_one_thread.h"
 }
 
 
@@ -30,7 +30,7 @@ TEST(MATRIX_ONE_THREAD_TEST, READ_FROM_FILE) {
     stream_to_write << "2 3\n1 2 3\n4 5 6";
     stream_to_write.close();
     int source_array[] = {1, 2, 3, 4, 5, 6};
-    int row, col, elem;
+    int row, col;
 
     stream_to_read >> row >> col;
     auto M = create_matrix(row, col);
