@@ -20,8 +20,6 @@ Matrix* multi_thread_data_processing(void* func, params_t *params) {
     matrix_data_t *threadData = (matrix_data_t *) malloc(
             (thread_params.need_count_threads) * sizeof(matrix_data_t));
 
-    int error_flag;
-
     unsigned int j = params->flag_work_with_file;
     for (int i = 0; i < thread_params.need_count_threads; ++i) {
         threadData[i].path_to_file = params->path_file;
@@ -38,8 +36,7 @@ Matrix* multi_thread_data_processing(void* func, params_t *params) {
             threadData->final_row = params->M->row;
         }
 
-        error_flag = pthread_create(&(threads[i]), NULL, func, &threadData[i]);
-        if (error_flag != 0) {
+        if (pthread_create(&(threads[i]), NULL, func, &threadData[i]) != 0) {
             free(threads);
             free(threadData);
             // free_matrix(params->M);
@@ -54,8 +51,7 @@ Matrix* multi_thread_data_processing(void* func, params_t *params) {
     free(threadData);
 
     if (flag_cancel == 1) {
-        // free_matrix(params->M);
-        return  NULL;
+        return NULL;
     }
 
     if (params->flag_work_with_file == DELETE) {
@@ -69,7 +65,6 @@ Matrix* multi_thread_data_processing(void* func, params_t *params) {
 
 void* multi_read_from_file(void* data) {
     matrix_data_t* readFileData = (matrix_data_t*)data;
-    char ch;
     FILE* fmatrix = fopen(readFileData->path_to_file, "r");
     if (fmatrix == NULL) {
         printf("NULL");
@@ -77,8 +72,7 @@ void* multi_read_from_file(void* data) {
     }
     size_t i = 0;
     while (!feof(fmatrix) && i < readFileData->start_row) {
-        ch = (char)fgetc(fmatrix);
-        if (ch == '\n') {
+        if ((char)fgetc(fmatrix) == '\n') {
             ++i;
         }
     }
@@ -103,8 +97,8 @@ void* multi_calloc_and_check(void* data) {
                                 i < callocData->final_row; ++i) {
         callocData->M->matr[i] = calloc(callocData->row_size, sizeof(double));
         if (callocData->M->matr[i] == NULL) {
-            free_matrix(callocData->M);
-            return NULL;
+            flag_cancel = 1;
+            return callocData->M;
         }
     }
 }
@@ -170,9 +164,10 @@ Matrix* create_matrix_from_file(const char* path_file) {
         return NULL;
     }
 
+    fclose(fmatrix);
+
     Matrix* M = create_matrix(rows, cols);
     if (M == NULL) {
-        fclose(fmatrix);
         return NULL;
     }
 
@@ -211,7 +206,12 @@ Matrix* create_matrix(size_t rows, size_t cols) {
                        .path_file = "",
                        .flag_work_with_file = 0};
 
-    return multi_thread_data_processing(multi_calloc_and_check, &params);
+    if (multi_thread_data_processing(multi_calloc_and_check, &params) == NULL) {
+        free_matrix(M);
+        return  NULL;
+    }
+
+    return M;
 }
 
 

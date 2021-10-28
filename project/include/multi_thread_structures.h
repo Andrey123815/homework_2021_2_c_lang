@@ -15,13 +15,13 @@ typedef struct Matrix {
 } Matrix;
 
 typedef struct {
-    const char* path_to_file;
     Matrix* M;
     Matrix* New_M;
+    const int* source_array;
+    const char* path_to_file;
     unsigned int start_row;
     unsigned int final_row;
     size_t row_size;
-    const int* source_array;
 } matrix_data_t;
 
 typedef struct {

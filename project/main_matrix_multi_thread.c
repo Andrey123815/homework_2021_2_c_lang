@@ -20,5 +20,7 @@ int main() {
 
     print_matrix(transp(M));
 
+    free_matrix(M);
+
     return 0;
 }
