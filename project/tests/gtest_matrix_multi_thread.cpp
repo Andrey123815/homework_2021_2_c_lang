@@ -5,7 +5,7 @@
 #include <fstream>
 
 extern "C" {
-    #include "../include/matrix_one_thread.h"
+#include "../include/matrix_multi_thread.h"
 }
 
 
@@ -64,7 +64,7 @@ TEST(MATRIX_ONE_THREAD_TEST, FILL_MATRIX) {
 
     Matrix *m2  = create_matrix(2, 2);
     int source_array[] = {1, 2, 3, 4};
-    fill_matrix(m2, source_array, 4);
+    fill_matrix(m2, source_array);
 
     EXPECT_EQ(m1->row, m2->row);
     EXPECT_EQ(m1->col, m2->col);
@@ -81,12 +81,12 @@ TEST(MATRIX_ONE_THREAD_TEST, FILL_MATRIX) {
 TEST(MATRIX_ONE_THREAD_TEST, TRANSP_MATRIX) {
     Matrix *m = create_matrix(3, 4);
     const int input_mas[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
-    fill_matrix(m, input_mas, 12);
+    fill_matrix(m, input_mas);
     auto transp_m = transp(m);
 
     Matrix *m_test = create_matrix(4, 3);
     const int test_mas[] = {1, 5, 9, 2, 6, 10, 3, 7, 11, 4, 8, 12};
-    fill_matrix(m_test, test_mas, 12);
+    fill_matrix(m_test, test_mas);
 
     EXPECT_EQ(transp_m->row, m_test->row);
     EXPECT_EQ(transp_m->col, m_test->col);
@@ -100,6 +100,7 @@ TEST(MATRIX_ONE_THREAD_TEST, TRANSP_MATRIX) {
     free_matrix(transp_m);
     free_matrix(m_test);
 }
+
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);

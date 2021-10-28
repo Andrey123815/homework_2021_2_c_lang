@@ -4,6 +4,7 @@
 #define PROJECT_INCLUDE_MATRIX_ONE_THREAD_H_
 
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct Matrix {
     size_t row;

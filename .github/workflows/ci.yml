@@ -22,7 +22,8 @@ jobs:
           cppcheck --enable=all --enable=warning,style,performance,portability --suppress=missingIncludeSystem . # --check-config
           sudo apt-get install python3-pip
           sudo pip install cpplint
-          cpplint --extensions=c,h,cpp project/include/* project/src/*
+          cpplint --extensions=c,h,cpp project/src/* project/include/* project/tests/* project/main_matrix_multi_thread.c project/main_matrix_one_thread.c
+
 
       - name : Building
         run : |
@@ -55,6 +56,7 @@ jobs:
           sudo apt-get install -y valgrind
           mkdir valgrid-output
           valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q ./build/test_matrix_one_thread.out
+          valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q ./build/test_matrix_multi_thread.out
 
       - name: Archive valgrind test results
         uses: actions/upload-artifact@v2
