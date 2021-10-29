@@ -44,6 +44,7 @@ TEST(MATRIX_ONE_THREAD_TEST, READ_FROM_FILE) {
 
     EXPECT_EQ(row, 2);
     EXPECT_EQ(col, 3);
+
     for (size_t i = 0 ; i < M->row; ++i) {
         for (size_t j = 0; j < M->col; ++j) {
             EXPECT_EQ(M->matr[i][j], source_array[i * col + j]);

@@ -106,7 +106,7 @@ void print_matrix(Matrix* matrix) {
 }
 
 
-Matrix* transp(const Matrix* matrix) {
+Matrix* transp(Matrix* matrix) {
     if (matrix == NULL) {
         return NULL;
     }

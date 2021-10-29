@@ -30,7 +30,7 @@ void print_matrix(Matrix* matrix);
 
 
 //  Math operations
-Matrix* transp(const Matrix* matrix);
+Matrix* transp(Matrix* matrix);
 
 
 #endif  // PROJECT_INCLUDE_MATRIX_SERVICE_THREAD_H_
