@@ -160,11 +160,11 @@ int time_test(parameters_t* params) {
 
         average_time_multi_thread /= 3;
 
-        const char *s1 = "One-thread version passed test in";
+        const char *s1 = "\nOne-thread version passed test in";
         const char *s2 = "Multi-thread version passed test in";
 
         printf("%s  (Size: %d * %d)\n%36s %9.7lf sec  [PASSED]\n"
-                                            "%36s %9.7lf sec  [PASSED]\n",
+                                            "%36s %9.7lf sec  [PASSED]",
                params->function_name,
                data_size.data_row_count[k], data_size.data_col_count[k],
                s1, average_time_one_thread,

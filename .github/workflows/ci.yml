@@ -21,6 +21,7 @@ jobs:
           sudo apt-get install -y cppcheck
           cppcheck --enable=all --enable=warning,style,performance,portability --suppress=missingIncludeSystem . # --check-config
 
+
       - name : Building
         run : |
           mkdir build
@@ -54,24 +55,40 @@ jobs:
           ./time_test.out
           cd ..
 
-#      - name: Coverage one-thread-mode test
-#        run: |
-#          sudo apt-get install lcov
-#          ./build/test_matrix_one_thread.out
-#          mkdir coverage && cd coverage
-#          gcov ../build/CMakeFiles/lib_matrix_one_thread.dir/project/src/matrix_one_thread.c.o
-#          cp -r ../build/CMakeFiles/lib_matrix_one_thread.dir/ .
-#          cd ..
-#          lcov --capture --directory coverage/ --output-file matrix_one_thread.info
-#          genhtml matrix_one_thread.info --output-directory coverage-report/
 
-      - name: Archive coverage test results
+      - name: Coverage one-thread-mode test
+        run: |
+          sudo apt-get install lcov
+          mkdir coverage && cd coverage
+          gcov ../build/CMakeFiles/lib_matrix_one_thread.dir/project/src/matrix_one_thread.c.o
+          cp -r ../build/CMakeFiles/lib_matrix_one_thread.dir/ .
+          cd ..
+          lcov --capture --directory coverage/ --output-file matrix_one_thread.info
+          genhtml matrix_one_thread.info --output-directory coverage-report/
+
+      - name: Archive coverage one-thread-mode test results
         uses: actions/upload-artifact@v2
         with:
           name: Coverage test
           path: coverage-report/
 
-      - name: Valgrind test
+
+      - name: Coverage multi-thread-mode test
+        run: |
+          gcov ../build/CMakeFiles/lib_matrix_multi_thread.dir/project/src/matrix_multi_thread.c.o
+          cp -r ../build/CMakeFiles/lib_matrix_multi_thread.dir/ .
+          cd ..
+          lcov --capture --directory coverage/ --output-file matrix_multi_thread.info
+          genhtml matrix_multi_thread.info --output-directory coverage-report/
+
+      - name: Archive coverage multi-thread-mode test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: Coverage test
+          path: coverage-report/
+
+
+      - name: Valgrind tests
         run: |
           sudo apt-get install -y valgrind
           mkdir valgrid-output
