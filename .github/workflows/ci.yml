@@ -21,7 +21,6 @@ jobs:
           sudo apt-get install -y cppcheck
           cppcheck --enable=all --enable=warning,style,performance,portability --suppress=missingIncludeSystem . # --check-config
 
-
       - name : Building
         run : |
           mkdir build
