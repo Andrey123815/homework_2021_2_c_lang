@@ -30,6 +30,30 @@ jobs:
           make
           cd ..
 
+      - name: Unit-tests one-thread mode
+        run: |
+          cd build
+          ./test_matrix_one_thread.out
+          cd ..
+
+      - name: Unit-tests multi-thread mode
+        run: |
+          cd build
+          ./test_matrix_multi_thread.out
+          cd ..
+
+      - name: Stress-tests of modes
+        run: |
+          cd build
+          ./stress_test.out
+          cd ..
+
+      - name: Time-tests of modes
+        run: |
+          cd build
+          ./time_test.out
+          cd ..
+
 #      - name: Coverage one-thread-mode test
 #        run: |
 #          sudo apt-get install lcov
@@ -54,6 +78,7 @@ jobs:
           valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q ./build/test_matrix_one_thread.out
           valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q ./build/test_matrix_multi_thread.out
           valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q ./build/stress_test.out
+          valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q ./build/time_test.out
 
       - name: Archive valgrind test results
         uses: actions/upload-artifact@v2
