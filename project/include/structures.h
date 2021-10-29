@@ -1,9 +1,9 @@
 // Copyright 2021 Diakonov Andrey
 
-#ifndef PROJECT_INCLUDE_MULTI_THREAD_STRUCTURES_H_
-#define PROJECT_INCLUDE_MULTI_THREAD_STRUCTURES_H_
+#ifndef PROJECT_INCLUDE_STRUCTURES_H_
+#define PROJECT_INCLUDE_STRUCTURES_H_
 
-#define DELETE -1
+#define FREE_MATRIX -1
 #define SUCCESS NULL
 
 #include <stdlib.h>
@@ -39,4 +39,4 @@ typedef struct {
 } params_t;
 
 
-#endif  // PROJECT_INCLUDE_MULTI_THREAD_STRUCTURES_H_
+#endif  // PROJECT_INCLUDE_STRUCTURES_H_

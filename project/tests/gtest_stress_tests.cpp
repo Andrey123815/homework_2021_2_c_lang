@@ -11,11 +11,13 @@ extern "C" {
 
 
 TEST(MATRIX_ONE_THREAD_TEST, INVALID_ROW) {
-    EXPECT_EQ(one_thread_create_matrix(-1, 1), multi_thread_create_matrix(-1 ,1));
+    EXPECT_EQ(one_thread_create_matrix(-1, 1),
+                    multi_thread_create_matrix(-1, 1));
 }
 
 TEST(MATRIX_ONE_THREAD_TEST, INVALID_COL) {
-    EXPECT_EQ(one_thread_create_matrix(1, 0), multi_thread_create_matrix(1, 0));
+    EXPECT_EQ(one_thread_create_matrix(1, 0),
+                    multi_thread_create_matrix(1, 0));
 }
 
 TEST(MATRIX_ONE_THREAD_TEST, VALID_ROW_COL) {
@@ -50,7 +52,8 @@ TEST(MATRIX_ONE_THREAD_TEST, READ_FROM_FILE) {
 
     for (size_t i = 0 ; i < matrix_one_thread->row; ++i) {
         for (size_t j = 0; j < matrix_one_thread->col; ++j) {
-            EXPECT_EQ(matrix_one_thread->matr[i][j], matrix_multi_thread->matr[i][j]);
+            EXPECT_EQ(matrix_one_thread->matr[i][j],
+                                matrix_multi_thread->matr[i][j]);
         }
     }
 
@@ -74,7 +77,8 @@ TEST(MATRIX_ONE_THREAD_TEST, FILL_MATRIX) {
 
     for (size_t i = 0 ; i < matrix_one_thread->row; ++i) {
         for (size_t j = 0; j < matrix_one_thread->col; ++j) {
-            EXPECT_EQ(matrix_one_thread->matr[i][j], matrix_multi_thread->matr[i][j]);
+            EXPECT_EQ(matrix_one_thread->matr[i][j],
+                                matrix_multi_thread->matr[i][j]);
         }
     }
 
@@ -98,7 +102,8 @@ TEST(MATRIX_ONE_THREAD_TEST, TRANSP_MATRIX) {
 
     for (size_t i = 0 ; i < transp_matrix_one_thread->row; ++i) {
         for (size_t j = 0; j < transp_matrix_one_thread->col; ++j) {
-            EXPECT_EQ(transp_matrix_one_thread->matr[i][j], transp_matrix_multi_thread->matr[i][j]);
+            EXPECT_EQ(transp_matrix_one_thread->matr[i][j],
+                                transp_matrix_multi_thread->matr[i][j]);
         }
     }
 

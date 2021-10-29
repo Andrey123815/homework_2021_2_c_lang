@@ -13,8 +13,8 @@ Matrix* multi_thread_data_processing(void* func, params_t *params) {
     opt_thread_count_t thread_params = {.rows_count = params->M->row};
     get_optimal_thread_count(&thread_params);
 
-    // Excluding the main thread, + 1 in case 11/3
-    pthread_t *threads = (pthread_t *) malloc(
+    // Excluding the main thread
+    pthread_t *threads = (pthread_t *)malloc(
             (thread_params.need_count_threads)* sizeof(pthread_t));
     // How many threads - so many thread data structures
     matrix_data_t *threadData = (matrix_data_t *) malloc(
@@ -47,14 +47,15 @@ Matrix* multi_thread_data_processing(void* func, params_t *params) {
     for (int i = 0; i < thread_params.need_count_threads; i++)
         pthread_join(threads[i], NULL);
 
-    // free(threads);
+
+    //free(threads);
     free(threadData);
 
     if (flag_cancel == 1) {
         return NULL;
     }
 
-    if (params->flag_work_with_file == DELETE) {
+    if (params->flag_work_with_file == FREE_MATRIX) {
         free(params->M->matr);
         free(params->M);
         return SUCCESS;
@@ -233,7 +234,7 @@ int free_matrix(Matrix* matrix) {
     params_t params = {.M = matrix,
                        .source_array = NULL,
                        .path_file = "",
-                       .flag_work_with_file = DELETE};
+                       .flag_work_with_file = FREE_MATRIX};
     multi_thread_data_processing(multi_free_matrix, &params);
 
     return 0;

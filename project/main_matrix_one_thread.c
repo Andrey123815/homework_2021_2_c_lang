@@ -9,10 +9,11 @@ int main() {
     for (int i = 0; i < source_array_size; ++i) {
         source_array[i] = i;
     }
-    fill_matrix(m, source_array, source_array_size);
+    fill_matrix(m, source_array);
     print_matrix(m);
-    print_matrix(transp(m));
-    m = create_matrix_from_file("file.tst");
-    free_matrix(m);
+    Matrix* n = transp(m);
+    print_matrix(n);
+    Matrix* k = create_matrix_from_file("file.tst");
+    free_matrix(k);
     return 0;
 }
