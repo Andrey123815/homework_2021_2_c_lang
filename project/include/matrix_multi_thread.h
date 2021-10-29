@@ -1,13 +1,13 @@
 // Copyright 2021 Diakonov Andrey
 
-#ifndef PROJECT_INCLUDE_MATRIX_MULTI_THREAD_H_
-#define PROJECT_INCLUDE_MATRIX_MULTI_THREAD_H_
+#ifndef PROJECT_INCLUDE_MATRIX_SERVICE_THREAD_H_
+#define PROJECT_INCLUDE_MATRIX_SERVICE_THREAD_H_
 
 #include <stdio.h>
 #include <pthread.h>
 #include <unistd.h>
 
-#include "../include/multi_thread_structures.h"
+#include "../include/structures.h"
 
 // Service operations
 Matrix* multi_thread_data_processing(void* func, params_t* params);
@@ -30,7 +30,7 @@ void print_matrix(Matrix* matrix);
 
 
 //  Math operations
-Matrix* transp(Matrix* matrix);
+Matrix* transp(const Matrix* matrix);
 
 
-#endif  // PROJECT_INCLUDE_MATRIX_MULTI_THREAD_H_
+#endif  // PROJECT_INCLUDE_MATRIX_SERVICE_THREAD_H_

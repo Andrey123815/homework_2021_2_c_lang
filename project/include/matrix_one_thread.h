@@ -6,18 +6,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Matrix {
-    size_t row;
-    size_t col;
-    double** matr;
-} Matrix;
-
+#include "../include/structures.h"
 
 //  Init/release operations
 Matrix* create_matrix_from_file(const char* path_file);
 Matrix* create_matrix(size_t rows, size_t cols);
-Matrix* fill_matrix(Matrix* matrix, const int source_array[],
-                                    const int source_array_size);
+Matrix* fill_matrix(Matrix* matrix, const int source_array[]);
 int free_matrix(Matrix* matrix);
 void print_matrix(Matrix* matrix);
 

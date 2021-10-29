@@ -37,3 +37,7 @@ target_link_libraries(test_matrix_one_thread.out lib_matrix_one_thread ${GTEST_L
 # Create exe-file for testing multi-thread mode
 add_executable(test_matrix_multi_thread.out project/tests/gtest_matrix_multi_thread.cpp)
 target_link_libraries(test_matrix_multi_thread.out lib_matrix_multi_thread ${GTEST_LIBRARIES} Threads::Threads)
+
+# Create exe-file for stress testing
+add_executable(stress_test.out project/tests/gtest_stress_tests.cpp)
+target_link_libraries(stress_test.out lib_matrix_multi_thread lib_matrix_one_thread ${GTEST_LIBRARIES} Threads::Threads)
