@@ -59,7 +59,7 @@ jobs:
         run: |
           sudo apt-get install lcov
           mkdir coverage && cd coverage
-          gcov ../build/CMakeFiles/lib_matrix_one_thread.dir/project/src/matrix_one_thread.c.o
+          gcov ../build/CMakeFiles/lib_matrix_one_thread.dir/project/src/matrix_one_thread.c.gcno
           cp -r ../build/CMakeFiles/lib_matrix_one_thread.dir/ .
           cd ..
           lcov --capture --directory coverage/ --output-file matrix_one_thread.info
@@ -74,7 +74,7 @@ jobs:
 
       - name: Coverage multi-thread-mode test
         run: |
-          gcov ../build/CMakeFiles/lib_matrix_multi_thread.dir/project/src/matrix_multi_thread.c.o
+          gcov ../build/CMakeFiles/lib_matrix_multi_thread.dir/project/src/matrix_multi_thread.c.gcno
           cp -r ../build/CMakeFiles/lib_matrix_multi_thread.dir/ .
           cd ..
           lcov --capture --directory coverage/ --output-file matrix_multi_thread.info

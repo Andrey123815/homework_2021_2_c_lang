@@ -8,7 +8,94 @@ int flag_cancel = 0;
 // Service operations
 
 
-Matrix* multi_thread_data_processing(void* func, params_t *params) {
+void* multi_read_from_file(void* data) {
+    matrix_data_t* readFileData = (matrix_data_t*)data;
+    FILE* fmatrix = fopen(readFileData->path_to_file, "r");
+    if (fmatrix == NULL) {
+        printf("NULL");
+        return NULL;
+    }
+    size_t i = 0;
+    while (!feof(fmatrix) && i < readFileData->start_row) {
+        if ((char)fgetc(fmatrix) == '\n') {
+            ++i;
+        }
+    }
+
+    for (i = readFileData->start_row; i < readFileData->final_row
+                                                && flag_cancel != 1; ++i) {
+        for (size_t j = 0; j < readFileData->row_size
+                                                && flag_cancel != 1; ++j) {
+            if (fscanf(fmatrix, "%lf",
+                       &readFileData->M->matr[i-1][j]) != 1) {
+                fclose(fmatrix);
+                flag_cancel = 1;
+            }
+        }
+    }
+    fclose(fmatrix);
+    return readFileData->M;
+}
+
+void* multi_calloc_and_check(void* data) {
+    matrix_data_t* callocData = (matrix_data_t*)data;
+    for (unsigned int i = callocData->start_row;
+                                i < callocData->final_row; ++i) {
+        callocData->M->matr[i] = calloc(callocData->row_size, sizeof(double));
+        if (callocData->M->matr[i] == NULL) {
+            flag_cancel = 1;
+            return callocData->M;
+        }
+    }
+    return callocData->M;
+}
+
+void* multi_fill_matrix(void* data) {
+    matrix_data_t* fillData = (matrix_data_t*)data;
+    for (unsigned int i = fillData->start_row; i < fillData->final_row; ++i) {
+        for (unsigned int j = 0; j < fillData->row_size; ++j) {
+            fillData->M->matr[i][j] = fillData->
+                    source_array[i * fillData->M->col + j];
+        }
+    }
+    return fillData->M;
+}
+
+void* multi_free_matrix(void* data) {
+    matrix_data_t* freeData = (matrix_data_t*)data;
+    for (unsigned int i = freeData->start_row; i < freeData->final_row; ++i) {
+        free(freeData->M->matr[i]);
+    }
+    return NULL;
+}
+
+
+void* multi_transp_matrix(void* data) {
+    matrix_data_t* transpData = (matrix_data_t*)data;
+    for (size_t i = 0; i < transpData->M->row; ++i) {
+        for (size_t j = 0; j < transpData->M->col; ++j) {
+            transpData->New_M->matr[j][i] = transpData->M->matr[i][j];
+        }
+    }
+    return transpData->M;
+}
+
+void get_optimal_thread_count(opt_thread_count_t *thread) {
+    if (thread->rows_count > 32) {
+        // Check count system cores
+        thread->need_count_threads = (int)
+                sysconf(_SC_NPROCESSORS_ONLN);
+        thread->row_count_to_thread =
+                thread->rows_count / thread->need_count_threads;
+    } else {
+        thread->need_count_threads = thread->rows_count / 4 + 1;
+        thread->row_count_to_thread = (thread->rows_count < 4)
+                * thread->rows_count +(thread->rows_count >= 4) * 4;
+    }
+}
+
+
+Matrix* multi_thread_data_processing(void* (*func)(void*), params_t *params) {
     // Expect minimum 4 file_strings to one thread
     opt_thread_count_t thread_params = {.rows_count = params->M->row};
     get_optimal_thread_count(&thread_params);
@@ -62,86 +149,6 @@ Matrix* multi_thread_data_processing(void* func, params_t *params) {
     }
 
     return params->M;
-}
-
-void* multi_read_from_file(void* data) {
-    matrix_data_t* readFileData = (matrix_data_t*)data;
-    FILE* fmatrix = fopen(readFileData->path_to_file, "r");
-    if (fmatrix == NULL) {
-        printf("NULL");
-        return NULL;
-    }
-    size_t i = 0;
-    while (!feof(fmatrix) && i < readFileData->start_row) {
-        if ((char)fgetc(fmatrix) == '\n') {
-            ++i;
-        }
-    }
-
-    for (i = readFileData->start_row; i < readFileData->final_row
-                                                && flag_cancel != 1; ++i) {
-        for (size_t j = 0; j < readFileData->row_size
-                                                && flag_cancel != 1; ++j) {
-            if (fscanf(fmatrix, "%lf",
-                       &readFileData->M->matr[i-1][j]) != 1) {
-                fclose(fmatrix);
-                flag_cancel = 1;
-            }
-        }
-    }
-    fclose(fmatrix);
-}
-
-void* multi_calloc_and_check(void* data) {
-    matrix_data_t* callocData = (matrix_data_t*)data;
-    for (unsigned int i = callocData->start_row;
-                                i < callocData->final_row; ++i) {
-        callocData->M->matr[i] = calloc(callocData->row_size, sizeof(double));
-        if (callocData->M->matr[i] == NULL) {
-            flag_cancel = 1;
-            return callocData->M;
-        }
-    }
-}
-
-void* multi_fill_matrix(void* data) {
-    matrix_data_t* fillData = (matrix_data_t*)data;
-    for (unsigned int i = fillData->start_row; i < fillData->final_row; ++i) {
-        for (unsigned int j = 0; j < fillData->row_size; ++j) {
-            fillData->M->matr[i][j] = fillData->
-                    source_array[i * fillData->M->col + j];
-        }
-    }
-}
-
-void* multi_free_matrix(void* data) {
-    matrix_data_t* freeData = (matrix_data_t*)data;
-    for (unsigned int i = freeData->start_row; i < freeData->final_row; ++i) {
-        free(freeData->M->matr[i]);
-    }
-}
-
-void* multi_transp_matrix(void* data) {
-    matrix_data_t* transpData = (matrix_data_t*)data;
-    for (size_t i = 0; i < transpData->M->row; ++i) {
-        for (size_t j = 0; j < transpData->M->col; ++j) {
-            transpData->New_M->matr[j][i] = transpData->M->matr[i][j];
-        }
-    }
-}
-
-void get_optimal_thread_count(opt_thread_count_t *thread) {
-    if (thread->rows_count > 32) {
-        // Check count system cores
-        thread->need_count_threads = (int)
-                sysconf(_SC_NPROCESSORS_ONLN);
-        thread->row_count_to_thread =
-                thread->rows_count / thread->need_count_threads;
-    } else {
-        thread->need_count_threads = thread->rows_count / 4 + 1;
-        thread->row_count_to_thread = (thread->rows_count < 4)
-                * thread->rows_count +(thread->rows_count >= 4) * 4;
-    }
 }
 
 
@@ -235,6 +242,7 @@ int free_matrix(Matrix* matrix) {
                        .source_array = NULL,
                        .path_file = "",
                        .flag_work_with_file = FREE_MATRIX};
+
     multi_thread_data_processing(multi_free_matrix, &params);
 
     return 0;

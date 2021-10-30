@@ -8,11 +8,13 @@
 
 #include <stdlib.h>
 
+
 typedef struct Matrix {
     size_t row;
     size_t col;
     double** matr;
 } Matrix;
+
 
 typedef struct {
     Matrix* M;
@@ -24,11 +26,13 @@ typedef struct {
     size_t row_size;
 } matrix_data_t;
 
+
 typedef struct {
     unsigned int need_count_threads;
     unsigned int row_count_to_thread;
     unsigned int rows_count;
 } opt_thread_count_t;
+
 
 typedef struct {
     Matrix* M;

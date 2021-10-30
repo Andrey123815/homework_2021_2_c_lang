@@ -55,6 +55,7 @@ int* generate_source_array(int rows, int cols) {
             ptr[i * j + j] = i * j + j;
         }
     }
+    return ptr;
 }
 
 Matrix* get_handler(int flag, flag_mode mode, data_size_t* data_size, int number_iteration) {
