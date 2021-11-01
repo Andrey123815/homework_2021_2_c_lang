@@ -97,15 +97,25 @@ void get_optimal_thread_count(opt_thread_count_t *thread) {
 
 Matrix* multi_thread_data_processing(void* (*func)(void*), params_t *params) {
     // Expect minimum 4 file_strings to one thread
-    opt_thread_count_t thread_params = {.rows_count = params->M->row};
+    opt_thread_count_t thread_params = {.rows_count = params->M->row, .need_count_threads = 0};
     get_optimal_thread_count(&thread_params);
 
     // Excluding the main thread
     pthread_t *threads = (pthread_t *)malloc(
-            (thread_params.need_count_threads)* sizeof(pthread_t));
+            (thread_params.need_count_threads + 333)* sizeof(pthread_t));
+
+    if (!threads) {
+        return NULL;
+    }
+
     // How many threads - so many thread data structures
     matrix_data_t *threadData = (matrix_data_t *) malloc(
             (thread_params.need_count_threads) * sizeof(matrix_data_t));
+
+    if (!threadData) {
+        free(threads);
+        return NULL;
+    }
 
     unsigned int j = params->flag_work_with_file;
     for (int i = 0; i < thread_params.need_count_threads; ++i) {
@@ -123,30 +133,26 @@ Matrix* multi_thread_data_processing(void* (*func)(void*), params_t *params) {
             threadData->final_row = params->M->row;
         }
 
-        if (pthread_create(&(threads[i]), NULL, func, &threadData[i]) != 0) {
-            free(threads);
-            free(threadData);
-            // free_matrix(params->M);
-            return NULL;
-        }
+        pthread_create(&(threads[i]), NULL, func, &threadData[i]);
     }
 
     for (int i = 0; i < thread_params.need_count_threads; i++)
         pthread_join(threads[i], NULL);
 
-
-    //free(threads);
-    free(threadData);
-
     if (flag_cancel == 1) {
         return NULL;
     }
 
-    if (params->flag_work_with_file == FREE_MATRIX) {
+    /*if (params->flag_work_with_file == FREE_MATRIX) {
+        free(threads);
+        free(threadData);
         free(params->M->matr);
         free(params->M);
         return SUCCESS;
-    }
+    }*/
+
+    //free(threads);
+    free(threadData);
 
     return params->M;
 }

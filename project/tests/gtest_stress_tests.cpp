@@ -7,20 +7,22 @@
 extern "C" {
 #include "service_module/one_thread_service_func.h"
 #include "service_module/multi_thread_service_func.h"
+#include "../include/matrix_one_thread.h"
+#include "../include/matrix_multi_thread.h"
 }
 
 
-TEST(MATRIX_ONE_THREAD_TEST, INVALID_ROW) {
+TEST(MATRIX_STRESS_TEST, INVALID_ROW) {
     EXPECT_EQ(one_thread_create_matrix(-1, 1),
                     multi_thread_create_matrix(-1, 1));
 }
 
-TEST(MATRIX_ONE_THREAD_TEST, INVALID_COL) {
+TEST(MATRIX_STRESS_TEST, INVALID_COL) {
     EXPECT_EQ(one_thread_create_matrix(1, 0),
                     multi_thread_create_matrix(1, 0));
 }
 
-TEST(MATRIX_ONE_THREAD_TEST, VALID_ROW_COL) {
+TEST(MATRIX_STRESS_TEST, VALID_ROW_COL) {
     auto matrix_one_thread = one_thread_create_matrix(2, 2);
     auto matrix_multi_thread = multi_thread_create_matrix(2, 2);
 
@@ -31,7 +33,7 @@ TEST(MATRIX_ONE_THREAD_TEST, VALID_ROW_COL) {
     multi_thread_free_matrix(matrix_multi_thread);
 }
 
-TEST(MATRIX_ONE_THREAD_TEST, READ_FROM_FILE) {
+TEST(MATRIX_STRESS_TEST, READ_FROM_FILE) {
     std::ofstream stream_to_write;
     std::ifstream stream_to_read;
 
@@ -64,7 +66,7 @@ TEST(MATRIX_ONE_THREAD_TEST, READ_FROM_FILE) {
     remove("test.txt");
 }
 
-TEST(MATRIX_ONE_THREAD_TEST, FILL_MATRIX) {
+TEST(MATRIX_STRESS_TEST, FILL_MATRIX) {
     auto matrix_one_thread = one_thread_create_matrix(2, 2);
     auto matrix_multi_thread = multi_thread_create_matrix(2, 2);
     int source_array[] = {1, 2, 3, 4};
@@ -86,7 +88,7 @@ TEST(MATRIX_ONE_THREAD_TEST, FILL_MATRIX) {
     multi_thread_free_matrix(matrix_multi_thread);
 }
 
-TEST(MATRIX_ONE_THREAD_TEST, TRANSP_MATRIX) {
+TEST(MATRIX_STRESS_TEST, TRANSP_MATRIX) {
     auto matrix_one_thread = one_thread_create_matrix(3, 4);
     auto matrix_multi_thread = multi_thread_create_matrix(3, 4);
     const int input_mas[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};

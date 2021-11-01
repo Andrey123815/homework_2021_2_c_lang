@@ -49,7 +49,10 @@ void generate_file(const char* path_file, data_size_t* data_size, int number_ite
 }
 
 int* generate_source_array(int rows, int cols) {
-    int* ptr = (int*) malloc(rows*cols);
+    int* ptr = (int*) malloc(rows * cols * sizeof(int));
+    if (ptr == NULL) {
+        return ptr;
+    }
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
             ptr[i * j + j] = i * j + j;
@@ -139,25 +142,25 @@ int time_test(parameters_t* params) {
         for (int i = 0; i < 3; ++i) {
             start = clock();
 
-            Matrix *M = get_handler(params->flag, ONE_THREAD_MODE, &data_size, k);
+            Matrix *M1 = get_handler(params->flag, ONE_THREAD_MODE, &data_size, k);
 
             stop = clock();
             average_time_one_thread += (double) (stop - start) / CLOCKS_PER_SEC / 3;
 
-            multi_thread_free_matrix(M);
+            one_thread_free_matrix(M1);
         }
 
         for (int i = 0; i < 3; ++i) {
             clock_gettime(CLOCK_MONOTONIC, &begin);
 
-            Matrix *M = get_handler(params->flag, MULTI_THREAD_MODE, &data_size, k);
+            Matrix *M2 = get_handler(params->flag, MULTI_THREAD_MODE, &data_size, k);
 
             clock_gettime(CLOCK_MONOTONIC, &finish);
 
             average_time_multi_thread += (double)(finish.tv_sec - begin.tv_sec);
             average_time_multi_thread += (double)(finish.tv_nsec - begin.tv_nsec) / 1000000000.0;
 
-            multi_thread_free_matrix(M);
+            multi_thread_free_matrix(M2);
         }
 
         average_time_multi_thread /= 3;

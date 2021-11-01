@@ -40,8 +40,8 @@ target_link_libraries(test_matrix_multi_thread.out lib_matrix_multi_thread ${GTE
 
 # Create exe-file for stress testing
 add_executable(stress_test.out project/tests/gtest_stress_tests.cpp)
-target_link_libraries(stress_test.out lib_matrix_multi_thread lib_matrix_one_thread ${GTEST_LIBRARIES} Threads::Threads)
+target_link_libraries(stress_test.out lib_matrix_one_thread lib_matrix_multi_thread ${GTEST_LIBRARIES} Threads::Threads)
 
 # Create exe-file for time testing
 add_executable(time_test.out project/tests/time_test.c)
-target_link_libraries(time_test.out lib_matrix_multi_thread lib_matrix_one_thread ${GTEST_LIBRARIES} Threads::Threads)
+target_link_libraries(time_test.out lib_matrix_multi_thread lib_matrix_one_thread Threads::Threads)
