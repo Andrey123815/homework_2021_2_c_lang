@@ -77,7 +77,8 @@ jobs:
 
       - name: Coverage multi-thread-mode test
         run: |
-          gcov ../build/CMakeFiles/lib_matrix_multi_thread.dir/project/src/matrix_multi_thread.c.gcda
+          cd coverage
+          gcov ../build/CMakeFiles/lib_matrix_multi_thread.dir/project/src/matrix_multi_thread.c.gcno
           cp -r ../build/CMakeFiles/lib_matrix_multi_thread.dir/ .
           cd ..
           lcov --capture --directory coverage/ --output-file matrix_multi_thread.info
