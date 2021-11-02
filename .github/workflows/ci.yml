@@ -71,7 +71,7 @@ jobs:
       - name: Archive coverage one-thread-mode test results
         uses: actions/upload-artifact@v2
         with:
-          name: Coverage test
+          name: Coverage one-thread-mode test
           path: coverage-report/
 
 
@@ -86,7 +86,7 @@ jobs:
       - name: Archive coverage multi-thread-mode test results
         uses: actions/upload-artifact@v2
         with:
-          name: Coverage test
+          name: Coverage multi-thread-mode test
           path: coverage-report/
 
 
