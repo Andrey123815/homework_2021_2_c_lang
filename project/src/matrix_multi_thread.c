@@ -151,7 +151,7 @@ Matrix* multi_thread_data_processing(void* (*func)(void*), params_t *params) {
         return SUCCESS;
     }*/
 
-    //free(threads);
+    free(threads);
     free(threadData);
 
     return params->M;

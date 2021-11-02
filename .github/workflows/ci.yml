@@ -45,13 +45,16 @@ jobs:
       - name: Stress-tests of modes
         run: |
           cd build
+          ./stress_test_one_thread.out one-thread
+          ./stress_test_multi_thread.out multi-thread
           ./stress_test.out
           cd ..
 
       - name: Time-tests of modes
         run: |
           cd build
-          ./time_test.out
+          ./time_test_one_thread.out one-thread
+          ./time_test_multi_thread.out multi-thread
           cd ..
 
 
@@ -93,8 +96,6 @@ jobs:
           mkdir valgrid-output
           valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q ./build/test_matrix_one_thread.out
           valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q ./build/test_matrix_multi_thread.out
-          valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q ./build/stress_test.out
-          valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q ./build/time_test.out
 
       - name: Archive valgrind test results
         uses: actions/upload-artifact@v2

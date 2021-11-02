@@ -4,7 +4,6 @@
 #define PROJECT_INCLUDE_STRUCTURES_H_
 
 #define FREE_MATRIX -1
-#define SUCCESS NULL
 
 #include <stdlib.h>
 
