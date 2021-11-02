@@ -143,15 +143,7 @@ Matrix* multi_thread_data_processing(void* (*func)(void*), params_t *params) {
         return NULL;
     }
 
-    /*if (params->flag_work_with_file == FREE_MATRIX) {
-        free(threads);
-        free(threadData);
-        free(params->M->matr);
-        free(params->M);
-        return SUCCESS;
-    }*/
-
-    free(threads);
+    //free(threads);
     free(threadData);
 
     return params->M;
@@ -256,6 +248,9 @@ int free_matrix(Matrix* matrix) {
 
 
 void print_matrix(Matrix* matrix) {
+    if (matrix == NULL) {
+        return;
+    }
     for (size_t i = 0; i < matrix->row; ++i) {
         for (size_t j = 0; j < matrix->col; ++j) {
             printf("%9.3lf ", matrix->matr[i][j]);
