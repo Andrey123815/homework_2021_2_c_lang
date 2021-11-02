@@ -61,34 +61,34 @@ jobs:
       - name: Coverage one-thread-mode test
         run: |
           sudo apt-get install lcov
-          mkdir coverage && cd coverage
+          mkdir coverage_one_th && cd coverage_one_th
           gcov ../build/CMakeFiles/lib_matrix_one_thread.dir/project/src/matrix_one_thread.c.gcno
           cp -r ../build/CMakeFiles/lib_matrix_one_thread.dir/ .
           cd ..
-          lcov --capture --directory coverage/ --output-file matrix_one_thread.info
-          genhtml matrix_one_thread.info --output-directory coverage-report/
+          lcov --capture --directory coverage_one_th/ --output-file matrix_one_thread.info
+          genhtml matrix_one_thread.info --output-directory coverage_one_th-report/
 
       - name: Archive coverage one-thread-mode test results
         uses: actions/upload-artifact@v2
         with:
           name: Coverage one-thread-mode test
-          path: coverage-report/
+          path: coverage_one_th-report/
 
 
       - name: Coverage multi-thread-mode test
         run: |
-          cd coverage
+          mkdir coverage_multi_th && cd coverage_multi_th
           gcov ../build/CMakeFiles/lib_matrix_multi_thread.dir/project/src/matrix_multi_thread.c.gcno
           cp -r ../build/CMakeFiles/lib_matrix_multi_thread.dir/ .
           cd ..
-          lcov --capture --directory coverage/ --output-file matrix_multi_thread.info
-          genhtml matrix_multi_thread.info --output-directory coverage-report/
+          lcov --capture --directory coverage_multi_th/ --output-file matrix_multi_thread.info
+          genhtml matrix_multi_thread.info --output-directory coverage_multi_th-report/
 
       - name: Archive coverage multi-thread-mode test results
         uses: actions/upload-artifact@v2
         with:
           name: Coverage multi-thread-mode test
-          path: coverage-report/
+          path: coverage_multi_th-report/
 
 
       - name: Valgrind tests
