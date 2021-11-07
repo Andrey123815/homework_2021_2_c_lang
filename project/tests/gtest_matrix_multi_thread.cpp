@@ -26,7 +26,6 @@ TEST(MATRIX_MULTI_THREAD_TEST, VALID_ROW_COL) {
 
 TEST(MATRIX_MULTI_THREAD_TEST, READ_FROM_FILE) {
     std::ofstream stream_to_write;
-    std::ifstream stream_to_read;
     stream_to_write.open("test.txt", std::ios_base::out);
     stream_to_write << "2 3\n1 2 3\n4 5 6";
     stream_to_write.close();

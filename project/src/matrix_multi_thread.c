@@ -223,7 +223,7 @@ Matrix* create_matrix(size_t rows, size_t cols) {
         flag_cancel = 0;
     }
 
-    return params.M;
+    return M;
 }
 
 
