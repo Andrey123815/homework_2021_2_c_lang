@@ -18,14 +18,14 @@ void generate_file(const char* path_file, data_size_t* data_size, int number_ite
 }
 
 int* generate_source_array(int rows, int cols) {
-    int* ptr = (int*) malloc(rows * cols * sizeof(int));
-    if (ptr == NULL) {
-        return ptr;
+    int* source_array = (int*) malloc(rows * cols * sizeof(int));
+    if (source_array == NULL) {
+        return source_array;
     }
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
-            ptr[i * j + j] = i * j + j;
+            source_array[i * j + j] = i * j + j;
         }
     }
-    return ptr;
+    return source_array;
 }

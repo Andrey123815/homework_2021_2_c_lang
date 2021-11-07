@@ -16,23 +16,24 @@ int main(int argc, char* argv[]) {
     data_size_t data_size = {.data_row_count = {800, 1600}, .data_col_count = {800, 1600}};
 
     for (int i = 0; i < 2; ++i) {
-        Matrix* M = create_matrix(data_size.data_row_count[i], data_size.data_col_count[i]);
+        Matrix* simple_matrix = create_matrix(data_size.data_row_count[i], data_size.data_col_count[i]);
         generate_file(service_file, &data_size, i);
-        Matrix* N = create_matrix_from_file(service_file);
         int* source_array = generate_source_array(data_size.data_row_count[i], data_size.data_col_count[i]);
-        fill_matrix(M, source_array);
+        fill_matrix(simple_matrix, source_array);
 
-        write_results_to_file(common_stress_file, M);
+        Matrix* matrix_from_file = create_matrix_from_file(service_file);
 
-        Matrix* trasp_M = transp(M);
-        write_results_to_file(common_stress_file, trasp_M);
+        write_results_to_file(common_stress_file, simple_matrix);
 
-        write_results_to_file(common_stress_file, N);
+        Matrix* transposition_matrix = transp(simple_matrix);
+        write_results_to_file(common_stress_file, transposition_matrix);
+
+        write_results_to_file(common_stress_file, matrix_from_file);
 
         free(source_array);
-        free_matrix(M);
-        free_matrix(trasp_M);
-        free_matrix(N);
+        free_matrix(simple_matrix);
+        free_matrix(transposition_matrix);
+        free_matrix(matrix_from_file);
         remove(service_file);
     }
 
