@@ -3,8 +3,6 @@
 #ifndef PROJECT_INCLUDE_STRUCTURES_H_
 #define PROJECT_INCLUDE_STRUCTURES_H_
 
-#define FREE_MATRIX -1
-
 #include <stdlib.h>
 
 

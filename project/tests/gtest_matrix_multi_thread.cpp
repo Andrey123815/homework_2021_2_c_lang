@@ -9,54 +9,45 @@ extern "C" {
 }
 
 
-TEST(MATRIX_ONE_THREAD_TEST, INVALID_ROW) {
+TEST(MATRIX_MULTI_THREAD_TEST, INVALID_ROW) {
     EXPECT_EQ(create_matrix(-1, 1), nullptr);
 }
 
-TEST(MATRIX_ONE_THREAD_TEST, INVALID_COL) {
+TEST(MATRIX_MULTI_THREAD_TEST, INVALID_COL) {
     EXPECT_EQ(create_matrix(1, 0), nullptr);
 }
 
-TEST(MATRIX_ONE_THREAD_TEST, VALID_ROW_COL) {
+TEST(MATRIX_MULTI_THREAD_TEST, VALID_ROW_COL) {
     auto M = create_matrix(2, 2);
     EXPECT_EQ(M->row, 2);
     EXPECT_EQ(M->col, 2);
     free_matrix(M);
 }
 
-TEST(MATRIX_ONE_THREAD_TEST, READ_FROM_FILE) {
+TEST(MATRIX_MULTI_THREAD_TEST, READ_FROM_FILE) {
     std::ofstream stream_to_write;
     std::ifstream stream_to_read;
     stream_to_write.open("test.txt", std::ios_base::out);
-    stream_to_read.open("test.txt", std::ios_base::in);
     stream_to_write << "2 3\n1 2 3\n4 5 6";
     stream_to_write.close();
     int source_array[] = {1, 2, 3, 4, 5, 6};
-    int row, col;
 
-    stream_to_read >> row >> col;
-    auto M = create_matrix(row, col);
-    for (size_t i = 0 ; i < M->row; ++i) {
-        for (size_t j = 0; j < M->col; ++j) {
-            stream_to_read >> M->matr[i][j];
-        }
-    }
+    Matrix* M = create_matrix_from_file("test.txt");
 
-    EXPECT_EQ(row, 2);
-    EXPECT_EQ(col, 3);
+    EXPECT_EQ(M->row, 2);
+    EXPECT_EQ(M->col, 3);
 
     for (size_t i = 0 ; i < M->row; ++i) {
         for (size_t j = 0; j < M->col; ++j) {
-            EXPECT_EQ(M->matr[i][j], source_array[i * col + j]);
+            EXPECT_EQ(M->matr[i][j], source_array[i * M->col + j]);
         }
     }
 
-    stream_to_read.close();
     free_matrix(M);
     remove("test.txt");
 }
 
-TEST(MATRIX_ONE_THREAD_TEST, FILL_MATRIX) {
+TEST(MATRIX_MULTI_THREAD_TEST, FILL_MATRIX) {
     Matrix *m1 = create_matrix(2, 2);
     m1->matr[0][0] = 1;
     m1->matr[0][1] = 2;
@@ -79,7 +70,7 @@ TEST(MATRIX_ONE_THREAD_TEST, FILL_MATRIX) {
     free_matrix(m2);
 }
 
-TEST(MATRIX_ONE_THREAD_TEST, TRANSP_MATRIX) {
+TEST(MATRIX_MULTI_THREAD_TEST, TRANSP_MATRIX) {
     Matrix *m = create_matrix(3, 4);
     const int input_mas[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
     fill_matrix(m, input_mas);
