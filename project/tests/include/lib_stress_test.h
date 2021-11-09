@@ -31,14 +31,14 @@ int write_results_to_file(const char* path, const Matrix* M) {
 }
 
 int read_and_compare() {
-    FILE* f_one_thread = fopen("one-thread.txt",  "r");
+    FILE* f_one_thread = fopen("sync/one-thread.txt",  "r");
 
     if (f_one_thread == NULL) {
         printf("no file\n");
         return -1;
     }
 
-    FILE* f_multi_thread = fopen("multi-thread.txt", "r");
+    FILE* f_multi_thread = fopen("async/multi-thread.txt", "r");
 
     if (f_multi_thread == NULL) {
         fclose(f_one_thread);
