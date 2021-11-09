@@ -44,10 +44,16 @@ jobs:
 
       - name: Stress-tests of modes
         run: |
-          cd build
-          ./project/tests/productivity/sync/sync_stress_test.out
-          ./project/tests/productivity/async/async_stress_test.out
-          ./project/tests/productivity/stress_test.out
+          cd build/project/tests/productivity/sync
+          ./sync_stress_test.out
+          cd ..
+
+          cd build/project/tests/productivity/async
+          ./async_stress_test.out
+          cd..
+
+          cd project/tests/productivity
+          ./stress_test.out
           cd ..
 
 #      - name: Time-tests of modes
