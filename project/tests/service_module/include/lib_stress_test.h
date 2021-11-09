@@ -6,8 +6,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "../../../include/matrix_one_thread.h"
-#include "../../../include/matrix_multi_thread.h"
+#include "../../../include/matrix_processing.h"
 #include "test_structures.h"
 
 

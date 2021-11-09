@@ -1,6 +1,6 @@
 // Copyright 2021 Diakonov Andrey
 
-#include "../include/matrix_multi_thread.h"
+#include "../include/matrix_processing.h"
 
 int flag_cancel = 0;
 
@@ -38,7 +38,7 @@ void* multi_read_from_file(void* data) {
     return readFileData->M;
 }
 
-void* multi_calloc_and_check(void* data) {
+static void* multi_calloc_and_check(void* data) {
     matrix_data_t* callocData = (matrix_data_t*)data;
     for (unsigned int i = callocData->start_row;
                                 i < callocData->final_row; ++i) {
@@ -51,7 +51,7 @@ void* multi_calloc_and_check(void* data) {
     return callocData->M;
 }
 
-void* multi_fill_matrix(void* data) {
+static void* multi_fill_matrix(void* data) {
     matrix_data_t* fillData = (matrix_data_t*)data;
     for (unsigned int i = fillData->start_row; i < fillData->final_row; ++i) {
         for (unsigned int j = 0; j < fillData->row_size; ++j) {
@@ -62,7 +62,7 @@ void* multi_fill_matrix(void* data) {
     return fillData->M;
 }
 
-void* multi_free_matrix(void* data) {
+static void* multi_free_matrix(void* data) {
     matrix_data_t* freeData = (matrix_data_t*)data;
     if (freeData->M == NULL) {
         return NULL;
@@ -80,7 +80,7 @@ void* multi_free_matrix(void* data) {
 }
 
 
-void* multi_transp_matrix(void* data) {
+static void* multi_transp_matrix(void* data) {
     matrix_data_t* transpData = (matrix_data_t*)data;
     for (size_t i = 0; i < transpData->M->row; ++i) {
         for (size_t j = 0; j < transpData->M->col; ++j) {
@@ -90,14 +90,14 @@ void* multi_transp_matrix(void* data) {
     return transpData->M;
 }
 
-void get_optimal_thread_count(opt_thread_count_t *thread) {
+static void get_optimal_thread_count(opt_thread_count_t *thread) {
     int core = (int)sysconf(_SC_NPROCESSORS_ONLN);
     thread->need_count_threads = (core > thread->rows_count) ? thread->rows_count : core;
     thread->row_count_to_thread = thread->rows_count / thread->need_count_threads;
 }
 
 
-Matrix* multi_thread_data_processing(void* (*func)(void*), params_t *params) {
+static Matrix* multi_thread_data_processing(void* (*func)(void*), params_t *params) {
     // Expect minimum 4 file_strings to one thread
     opt_thread_count_t thread_params = {.rows_count = params->M->row, .need_count_threads = 0};
     get_optimal_thread_count(&thread_params);

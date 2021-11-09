@@ -1,6 +1,6 @@
 // Copyright 2021 Diakonov Andrey
 
-#include "../include/matrix_one_thread.h"
+#include "../include/matrix_processing.h"
 
 //  Init/release operations
 Matrix* create_matrix_from_file(const char* path_file) {

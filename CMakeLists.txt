@@ -5,8 +5,8 @@ project(HW2_C_Cpp)
 # Compiler flags
 set(CMAKE_C_STANDARD 99)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
-set(CMAKE_CXX_FLAGS "-g -O0 -Wall -Wno-unused -Werror -Wpedantic -fprofile-arcs -ftest-coverage")
-set(CMAKE_C_FLAGS "-g -O0 -Wall -Wno-unused -Werror -Wpedantic -fprofile-arcs -ftest-coverage")
+set(CMAKE_CXX_FLAGS "-g -O0 -Wall -Wno-unknown-pragmas -Wno-sign-compare -Wwrite-strings -Wno-unused -Werror -Wpedantic -fprofile-arcs -ftest-coverage")
+set(CMAKE_C_FLAGS "-g -O0 -Wall -Wno-unknown-pragmas -Wno-sign-compare -Wwrite-strings -Wno-unused -Werror -Wpedantic -fprofile-arcs -ftest-coverage")
 set(CMAKE_EXE_LINKER_FLAGS "-fprofile-arcs -ftest-coverage")
 
 
@@ -20,8 +20,6 @@ set(SERVICE_SRC project/tests/service_module/src)
 # Create static library matrix_one_thread
 add_library(lib_matrix_one_thread STATIC ${SOURCE_DIRECTORY}/matrix_one_thread.c)
 target_include_directories(lib_matrix_one_thread PUBLIC ${INCLUDE_DIRECTORY})
-add_executable(main_matrix_one_thread.out project/main_matrix_one_thread.c)
-target_link_libraries(main_matrix_one_thread.out lib_matrix_one_thread)
 
 
 # Find libraries for multi-thread work
@@ -32,8 +30,6 @@ find_package(Threads REQUIRED)
 add_library(lib_matrix_multi_thread SHARED ${SOURCE_DIRECTORY}/matrix_multi_thread.c)
 target_include_directories(lib_matrix_multi_thread PUBLIC ${INCLUDE_DIRECTORY})
 target_link_libraries(lib_matrix_multi_thread Threads::Threads)
-add_executable(main_matrix_multi_thread.out project/main_matrix_multi_thread.c)
-target_link_libraries(main_matrix_multi_thread.out lib_matrix_multi_thread)
 
 
 enable_testing()

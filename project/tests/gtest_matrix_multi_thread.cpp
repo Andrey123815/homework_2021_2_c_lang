@@ -5,7 +5,7 @@
 #include <fstream>
 
 extern "C" {
-#include "../include/matrix_multi_thread.h"
+#include "../include/matrix_processing.h"
 }
 
 

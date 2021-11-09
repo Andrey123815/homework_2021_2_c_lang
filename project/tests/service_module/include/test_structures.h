@@ -8,7 +8,7 @@
 typedef struct {
     int flag;
     Matrix* M;
-    char* function_name;
+    const char* function_name;
 } parameters_t;
 
 typedef enum {

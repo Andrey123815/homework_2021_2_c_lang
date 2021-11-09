@@ -8,8 +8,7 @@
 #include <unistd.h>
 #include <time.h>
 
-#include "matrix_one_thread.h"
-#include "matrix_multi_thread.h"
+#include "matrix_processing.h"
 #include "test_structures.h"
 #include "lib_generator.h"
 
