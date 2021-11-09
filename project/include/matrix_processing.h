@@ -15,7 +15,6 @@ Matrix* create_matrix_from_file(const char* path_file);
 Matrix* create_matrix(size_t rows, size_t cols);
 Matrix* fill_matrix(Matrix* matrix, const int source_array[]);
 int free_matrix(Matrix* matrix);
-void print_matrix(Matrix* matrix);
 
 //  Math operations
 Matrix* transp(Matrix* matrix);

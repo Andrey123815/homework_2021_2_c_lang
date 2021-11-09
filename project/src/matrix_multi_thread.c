@@ -264,19 +264,6 @@ int free_matrix(Matrix* matrix) {
 }
 
 
-void print_matrix(Matrix* matrix) {
-    if (matrix == NULL) {
-        return;
-    }
-    for (size_t i = 0; i < matrix->row; ++i) {
-        for (size_t j = 0; j < matrix->col; ++j) {
-            printf("%9.3lf ", matrix->matr[i][j]);
-        }
-        printf("\n");
-    }
-}
-
-
 Matrix* transp(Matrix* matrix) {
     if (matrix == NULL) {
         return NULL;
