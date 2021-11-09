@@ -33,28 +33,28 @@ jobs:
       - name: Unit-tests one-thread mode
         run: |
           cd build
-          ./test_matrix_one_thread.out
+          ./project/tests/test_matrix_one_thread.out
           cd ..
 
       - name: Unit-tests multi-thread mode
         run: |
           cd build
-          ./test_matrix_multi_thread.out
+          ./project/tests/test_matrix_multi_thread.out
           cd ..
 
       - name: Stress-tests of modes
         run: |
           cd build
-          ./stress_test_one_thread.out one-thread
-          ./stress_test_multi_thread.out multi-thread
-          ./stress_test.out
+          ./project/tests/productivity/sync/sync_stress_test.out one-thread
+          ./project/tests/productivity/async/async_stress_test.out multi-thread
+          ./project/tests/productivity/stress_test.out
           cd ..
 
       - name: Time-tests of modes
         run: |
           cd build
-          ./time_test_one_thread.out one-thread
-          ./time_test_multi_thread.out multi-thread
+          ./project/tests/productivity/sync/sync_time_test.out
+          ./project/tests/productivity/async/async_time_test.out
           cd ..
 
 
