@@ -45,7 +45,7 @@ Matrix* get_handler(int flag, data_size_t* data_size, int number_iteration) {
 int time_test(parameters_t* params, flag_mode mode) {
     const char* path_file = "time_test.txt";
 
-    data_size_t data_size = {.data_row_count = {80, 10000}, .data_col_count = {80, 5000}};
+    data_size_t data_size = {.data_row_count = {80, 10}, .data_col_count = {80, 50}};
 
     for (int k = 0; k < 2; ++k) {
         generate_file(path_file, &data_size, k);
