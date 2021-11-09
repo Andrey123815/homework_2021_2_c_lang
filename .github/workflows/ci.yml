@@ -48,13 +48,12 @@ jobs:
           ./sync_stress_test.out
           cd ..
 
-          cd build/project/tests/productivity/async
+          cd async
           ./async_stress_test.out
           cd..
 
-          cd project/tests/productivity
           ./stress_test.out
-          cd ..
+          cd ../../../
 
 #      - name: Time-tests of modes
 #        run: |
