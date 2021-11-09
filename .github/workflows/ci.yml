@@ -50,10 +50,10 @@ jobs:
 
           cd async
           ./async_stress_test.out
-          cd..
+          cd ..
 
           ./stress_test.out
-          cd ../../../
+          cd ../../../..
 
 #      - name: Time-tests of modes
 #        run: |
