@@ -47,6 +47,12 @@ jobs:
           cd build/project/tests/productivity
           ./sync/sync_stress_test.out one-thread
           ./async/async_stress_test.out multi-thread
+          cd async
+          ls
+          cd ..
+          cd sync
+          ls
+          cd ..
           ./stress_test.out
           cd ..
 
