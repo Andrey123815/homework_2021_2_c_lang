@@ -8,7 +8,7 @@ int main(int argc, char* argv[]) {
 
     const char* common_stress_file = strcat(argv[1], ".txt");
     const char* service_file = "service.txt";
-    data_size_t data_size = {.data_row_count = {800, 10000}, .data_col_count = {800, 5000}};
+    data_size_t data_size = {.data_row_count = {80, 100}, .data_col_count = {80, 50}};
 
     for (int i = 0; i < 2; ++i) {
         Matrix* simple_matrix = create_matrix(data_size.data_row_count[i], data_size.data_col_count[i]);
