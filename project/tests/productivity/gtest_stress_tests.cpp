@@ -4,7 +4,7 @@
 #include <fstream>
 
 extern "C" {
-#include "service_module/include/lib_stress_test.h"
+#include "lib_stress_test.h"
 }
 
 

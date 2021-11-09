@@ -1,7 +1,7 @@
 // Copyright 2021 Diakonov Andrey
 
-#ifndef PROJECT_TESTS_SERVICE_MODULE_INCLUDE_LIB_TIME_TEST_H_
-#define PROJECT_TESTS_SERVICE_MODULE_INCLUDE_LIB_TIME_TEST_H_
+#ifndef PROJECT_TESTS_INCLUDE_LIB_TIME_TEST_H_
+#define PROJECT_TESTS_INCLUDE_LIB_TIME_TEST_H_
 
 #include <stdio.h>
 #include <pthread.h>
@@ -43,11 +43,9 @@ Matrix* get_handler(int flag, data_size_t* data_size, int number_iteration) {
 }
 
 int time_test(parameters_t* params, flag_mode mode) {
-    struct timespec start, stop;
-
     const char* path_file = "time_test.txt";
 
-    data_size_t data_size = {.data_row_count = {800, 10000}, .data_col_count = {800, 5000}};
+    data_size_t data_size = {.data_row_count = {80, 10000}, .data_col_count = {80, 5000}};
 
     for (int k = 0; k < 2; ++k) {
         generate_file(path_file, &data_size, k);
@@ -55,14 +53,15 @@ int time_test(parameters_t* params, flag_mode mode) {
         double average_time = 0;
 
         for (int i = 0; i < 3; ++i) {
-            clock_gettime(CLOCK_REALTIME, &start);
+            struct timespec start, stop;
+            clock_gettime(CLOCK_MONOTONIC, &start);
 
             Matrix *M = get_handler(params->flag, &data_size, k);
 
-            clock_gettime(CLOCK_REALTIME, &stop);
+            clock_gettime(CLOCK_MONOTONIC, &stop);
 
-            average_time += (double)(stop.tv_sec - start.tv_sec);
-            average_time += (double)(stop.tv_nsec - start.tv_nsec) / 1000000000.0;
+            average_time += (stop.tv_sec - start.tv_sec);
+            average_time += (stop.tv_nsec - start.tv_nsec)  / 1000000000.0;
 
             free_matrix(M);
         }
@@ -91,4 +90,4 @@ int time_test(parameters_t* params, flag_mode mode) {
 }
 
 
-#endif  // PROJECT_TESTS_SERVICE_MODULE_INCLUDE_LIB_TIME_TEST_H_
+#endif  // PROJECT_TESTS_INCLUDE_LIB_TIME_TEST_H_

@@ -1,12 +1,12 @@
 // Copyright 2021 Diakonov Andrey
 
-#ifndef PROJECT_TESTS_SERVICE_MODULE_INCLUDE_LIB_STRESS_TEST_H_
-#define PROJECT_TESTS_SERVICE_MODULE_INCLUDE_LIB_STRESS_TEST_H_
+#ifndef PROJECT_TESTS_INCLUDE_LIB_STRESS_TEST_H_
+#define PROJECT_TESTS_INCLUDE_LIB_STRESS_TEST_H_
 
 #include <string.h>
 #include <stdio.h>
 
-#include "../../../include/matrix_processing.h"
+#include "../../include/matrix_processing.h"
 #include "test_structures.h"
 
 
@@ -31,14 +31,14 @@ int write_results_to_file(const char* path, const Matrix* M) {
 }
 
 int read_and_compare() {
-    FILE* f_one_thread = fopen("one-thread.txt",  "r");
+    FILE* f_one_thread = fopen("sync/one-thread.txt",  "r");
 
     if (f_one_thread == NULL) {
         printf("no file\n");
         return -1;
     }
 
-    FILE* f_multi_thread = fopen("multi-thread.txt", "r");
+    FILE* f_multi_thread = fopen("async/multi-thread.txt", "r");
 
     if (f_multi_thread == NULL) {
         fclose(f_one_thread);
@@ -52,7 +52,7 @@ int read_and_compare() {
     size_t size_f_multi_thread = ftell(f_multi_thread);
 
     if (size_f_one_thread != size_f_multi_thread) {
-        printf("size wrong\n");
+        printf("size wrong\none: %zu\nmulti: %zu\n", size_f_one_thread, size_f_multi_thread);
         fclose(f_one_thread);
         fclose(f_multi_thread);
         return -1;
@@ -80,4 +80,4 @@ int read_and_compare() {
 }
 
 
-#endif  // PROJECT_TESTS_SERVICE_MODULE_INCLUDE_LIB_STRESS_TEST_H_
+#endif  // PROJECT_TESTS_INCLUDE_LIB_STRESS_TEST_H_

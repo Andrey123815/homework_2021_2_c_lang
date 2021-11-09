@@ -1,7 +1,7 @@
 // Copyright 2021 Diakonov Andrey
 
-#ifndef PROJECT_TESTS_SERVICE_MODULE_INCLUDE_LIB_GENERATOR_H_
-#define PROJECT_TESTS_SERVICE_MODULE_INCLUDE_LIB_GENERATOR_H_
+#ifndef PROJECT_TESTS_INCLUDE_LIB_GENERATOR_H_
+#define PROJECT_TESTS_INCLUDE_LIB_GENERATOR_H_
 
 #include <stdio.h>
 #include "test_structures.h"
@@ -36,4 +36,4 @@ int* generate_source_array(int rows, int cols) {
 }
 
 
-#endif  // PROJECT_TESTS_SERVICE_MODULE_INCLUDE_LIB_GENERATOR_H_
+#endif  // PROJECT_TESTS_INCLUDE_LIB_GENERATOR_H_

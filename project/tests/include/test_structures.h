@@ -1,9 +1,9 @@
 // Copyright 2021 Diakonov Andrey
 
-#ifndef PROJECT_TESTS_SERVICE_MODULE_INCLUDE_TEST_STRUCTURES_H_
-#define PROJECT_TESTS_SERVICE_MODULE_INCLUDE_TEST_STRUCTURES_H_
+#ifndef PROJECT_TESTS_INCLUDE_TEST_STRUCTURES_H_
+#define PROJECT_TESTS_INCLUDE_TEST_STRUCTURES_H_
 
-#include "../../../include/structures.h"
+#include "../../include/structures.h"
 
 typedef struct {
     int flag;
@@ -22,4 +22,4 @@ typedef struct {
 } data_size_t;
 
 
-#endif  // PROJECT_TESTS_SERVICE_MODULE_INCLUDE_TEST_STRUCTURES_H_
+#endif  // PROJECT_TESTS_INCLUDE_TEST_STRUCTURES_H_

@@ -1,7 +1,7 @@
 // Copyright 2021 Diakonov Andrey
 
-#ifndef PROJECT_INCLUDE_MATRIX_ONE_THREAD_H_
-#define PROJECT_INCLUDE_MATRIX_ONE_THREAD_H_
+#ifndef PROJECT_INCLUDE_MATRIX_PROCESSING_H_
+#define PROJECT_INCLUDE_MATRIX_PROCESSING_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -21,4 +21,4 @@ void print_matrix(Matrix* matrix);
 Matrix* transp(Matrix* matrix);
 
 
-#endif  // PROJECT_INCLUDE_MATRIX_ONE_THREAD_H_
+#endif  // PROJECT_INCLUDE_MATRIX_PROCESSING_H_

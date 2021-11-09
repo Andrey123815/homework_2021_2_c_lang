@@ -1,6 +1,6 @@
 // Copyright 2021 Diakonov Andrey
 
-#include "../include/matrix_processing.h"
+#include "matrix_processing.h"
 
 int flag_cancel = 0;
 
