@@ -3,12 +3,11 @@
 #include "lib_generator.h"
 #include "lib_stress_test.h"
 
-int main(int argc, char* argv[]) {
-    const char* s2 = "multi-thread";
-
-    const char* common_stress_file = strcat(argv[1], ".txt");
+int main() {
     const char* service_file = "service.txt";
-    data_size_t data_size = {.data_row_count = {80, 100}, .data_col_count = {80, 50}};
+    const char* common_stress_file = "multi-thread.txt";
+
+    data_size_t data_size = {.data_row_count = {800, 1000}, .data_col_count = {800, 500}};
 
     for (int i = 0; i < 2; ++i) {
         Matrix* simple_matrix = create_matrix(data_size.data_row_count[i], data_size.data_col_count[i]);

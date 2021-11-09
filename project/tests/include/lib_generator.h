@@ -15,7 +15,7 @@ void generate_file(const char* path_file, data_size_t* data_size, int number_ite
 
     for (int i = 0; i < data_size->data_row_count[number_iteration]; ++i) {
         for (int j = 0; j < data_size->data_col_count[number_iteration]; ++j) {
-            fprintf(fmatrix, "%9.3lf ", (double)(i * j + j));
+            fprintf(fmatrix, "%9.3lf ", (double)(i * data_size->data_col_count[number_iteration] + j));
         }
         fprintf(fmatrix, "\n");
     }
@@ -29,7 +29,7 @@ int* generate_source_array(int rows, int cols) {
     }
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
-            source_array[i * j + j] = i * j + j;
+            source_array[i * cols + j] = i * cols + j;
         }
     }
     return source_array;

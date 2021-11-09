@@ -17,7 +17,7 @@ int write_results_to_file(const char* path, const Matrix* M) {
         return -1;
     }
 
-    fprintf(fmatrix, "%zu %zu", M->row, M->col);
+    fprintf(fmatrix, "%zu %zu\n", M->row, M->col);
 
     for (size_t i = 0; i < M->row; ++i) {
         for (size_t j = 0; j < M->col; ++j) {
