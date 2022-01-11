@@ -1,0 +1,110 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on: pull_request
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  CI:
+    name: Run CI
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name : Check style code
+        run : |
+          sudo apt-get install -y cppcheck
+          cppcheck --enable=all --enable=warning,style,performance,portability --suppress=missingIncludeSystem . # --check-config
+
+      - name : Building
+        run : |
+          mkdir build
+          cd build
+          sudo apt-get install -y libgtest-dev
+          cmake ..
+          make
+          cd ..
+
+      - name: Unit-tests one-thread mode
+        run: |
+          cd build
+          ./project/tests/test_matrix_one_thread.out
+          cd ..
+
+      - name: Unit-tests multi-thread mode
+        run: |
+          cd build
+          ./project/tests/test_matrix_multi_thread.out
+          cd ..
+
+      - name: Stress-tests of modes
+        run: |
+          cd build/project/tests/productivity/sync
+          ./sync_stress_test.out
+          cd ..
+
+          cd async
+          ./async_stress_test.out
+          cd ..
+
+          ./stress_test.out
+          cd ../../../..
+
+      - name: Time-tests of modes
+        run: |
+          cd build
+          ./project/tests/productivity/sync/sync_time_test.out
+          ./project/tests/productivity/async/async_time_test.out
+          cd ..
+
+
+      - name: Coverage one-thread-mode test
+        run: |
+          sudo apt-get install lcov
+          mkdir coverage_one_th && cd coverage_one_th
+          gcov ../build/CMakeFiles/lib_matrix_one_thread.dir/project/src/matrix_one_thread.c.gcno
+          cp -r ../build/CMakeFiles/lib_matrix_one_thread.dir/ .
+          cd ..
+          lcov --capture --directory coverage_one_th/ --output-file matrix_one_thread.info
+          genhtml matrix_one_thread.info --output-directory coverage_one_th-report/
+
+      - name: Archive coverage one-thread-mode test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: Coverage one-thread-mode test
+          path: coverage_one_th-report/
+
+
+      - name: Coverage multi-thread-mode test
+        run: |
+          mkdir coverage_multi_th && cd coverage_multi_th
+          gcov ../build/CMakeFiles/lib_matrix_multi_thread.dir/project/src/matrix_multi_thread.c.gcno
+          cp -r ../build/CMakeFiles/lib_matrix_multi_thread.dir/ .
+          cd ..
+          lcov --capture --directory coverage_multi_th/ --output-file matrix_multi_thread.info
+          genhtml matrix_multi_thread.info --output-directory coverage_multi_th-report/
+
+      - name: Archive coverage multi-thread-mode test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: Coverage multi-thread-mode test
+          path: coverage_multi_th-report/
+
+
+      - name: Valgrind tests
+        run: |
+          sudo apt-get install -y valgrind
+          mkdir valgrid-output
+          valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q ./build/project/tests/test_matrix_one_thread.out
+          valgrind --leak-check=full --tool=memcheck --show-leak-kinds=all --log-file=valgrid-output/report -q ./build/project/tests/test_matrix_multi_thread.out
+
+      - name: Archive valgrind test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: Valgrind test
+          path: valgrid-output/
